@@ -20,13 +20,13 @@
 	// Your web app's Firebase configuration
 	// TODO needs to be externalised
 	var firebaseConfig = {
-		apiKey: "{{ FIREBASE.apiKey }}",
-		authDomain: "{{ FIREBASE.authDomain }}",
-		databaseURL: "{{ FIREBASE.databaseURL }}",
-		projectId: "{{ FIREBASE.projectId }}",
-		storageBucket: "{{ FIREBASE.storageBucket }}",
-		messagingSenderId: "{{ FIREBASE.messagingSenderId }}",
-		appId: "{{ FIREBASE.appId }}",
+		apiKey: process.env.FIREBAE_API_KEY,
+		authDomain: process.env.FIREBAE_AUTH_DOMAIN,
+		databaseURL: process.env.FIREBAE_DATABASE_URL,
+		projectId: process.env.FIREBAE_PROJECT_ID,
+		storageBucket: process.env.FIREBAE_STORAGE_BUCKET,
+		messagingSenderId: process.env.FIREBAE_MESSAGING_SENDER_ID,
+		appId: process.env.FIREBAE_APP_ID,
 	};
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);

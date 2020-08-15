@@ -1,9 +1,10 @@
 
 import getLogger from "./lib/logger";
 
-const logger = getLogger("app", 1);
+const logger = getLogger("app", 15);
 
-logger.warn("Oh no")
+logger.warn(process.env)
+logger.warn(process.env.TEST)
 
 
 

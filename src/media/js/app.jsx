@@ -1,21 +1,62 @@
 
+import React from "react";
+import ReactDOM from "react-dom";
+import GameSelect from "./routes/game-select";
+import CodeGenerated from "./routes/code-generated";
+import dispatcher from "./lib/dispatcher";
+import gameHandler from "./handlers/game";
 import getLogger from "./lib/logger";
 
 const logger = getLogger("app", 15);
+const tmpData = [
+	{
+		id: "1",
+		name: "Game Name 1",
+		description: "Lorum ipsum dolor sit amet",
+		image: "https://via.placeholder.com/100x150"
+	},
+	{
+		id: "2",
+		name: "Game Name 2",
+		description: "Lorum ipsum dolor sit amet",
+		image: "https://via.placeholder.com/100x150"
+	}
+];
 
-logger.warn(process.env)
-logger.warn(process.env.TEST)
 
+class App extends React.Component {
+	constructor(props) {
+		super(props);
 
+		this.state = {
+			game: null
+		};
+	}
 
-import React from "react";
-import ReactDOM from "react-dom";
+	componentDidMount() {
+		this.ref = dispatcher.subscribe((action, state) => {
+			logger.log(action, state);
 
-class HelloMessage extends React.Component {
+			this.setState({
+				game: state.game
+			});
+		});
+
+		dispatcher.register("game", gameHandler);
+	}
+
 	render() {
-		return <div>Hello {this.props.name}</div>;
+		return <div>
+			{ this.state.game
+				? <CodeGenerated game={ this.state.game } />
+				: <GameSelect games={ tmpData } />
+			}
+		</div>;
 	}
 }
 
 
-ReactDOM.render(<HelloMessage name="Sebastian" />, document.getElementById("container"));
+ReactDOM.render(
+	<App />,
+	document.getElementById("container")
+);

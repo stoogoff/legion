@@ -4,4 +4,4 @@
 // at the top of the file
 
 
-export const MAP_ACTIVATE = "activate-map";
+export const GAME_SELECT = "game-select";

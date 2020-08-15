@@ -15,15 +15,13 @@
 		"clean": "node ./build/clean.js"
 	},
 	"devDependencies": {
-		"babel-core": "^6.26.3",
-		"babel-preset-env": "^1.7.0",
-		"babel-preset-react": "^6.24.1",
 		"parcel-bundler": "^1.12.4",
 		"rimraf": "^3.0.2",
 		"sass": "^1.26.10"
 	},
 	"dependencies": {
 		"react": "^16.13.1",
-		"react-dom": "^16.13.1"
+		"react-dom": "^16.13.1",
+		"react-router-dom": "^5.2.0"
 	}
 }

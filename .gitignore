@@ -9,4 +9,4 @@ support/**
 dist/**
 build/*.json
 
-.env
+.env*

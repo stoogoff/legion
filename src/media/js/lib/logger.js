@@ -10,6 +10,10 @@ const noop = () => {};
 
 
 export default function getLogger(module, level) {
+	if(level > process.env.MAX_LOG_LEVEL) {
+		level = process.env.MAX_LOG_LEVEL;
+	}
+
 	let logger = {
 		log: noop,
 		info: noop,

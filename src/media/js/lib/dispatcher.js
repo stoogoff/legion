@@ -33,14 +33,20 @@ const dispatcher = {
 	},
 
 	// dispatch an action and payload to the relevent handlers
-	dispatch(action, payload) {
+	async dispatch(action, payload) {
 		let newState = { ...state };
+		let keys = Object.keys(handlers);
 
-		Object.keys(handlers).forEach(key => {
-			Object.values(handlers[key]).forEach(handler => {
-				newState[key] = handler(newState[key], action, payload, { ...newState });
-			});
-		});
+		for(let i = 0, ilen = keys.length; i < ilen; ++i) {
+			let key = keys[i];
+			let values = Object.values(handlers[key]);
+
+			for(let j = 0, jlen = values.length; j < jlen; ++j) {
+				let handler = values[j];
+				
+				newState[key] = await handler(newState[key], action, payload);
+			}
+		}
 
 		state = newState;
 

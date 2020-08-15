@@ -6,7 +6,7 @@ const GAME_ACTIONS = {};
 
 
 // TODO there's a lot more this needs to do and it will need to be asynchronous
-GAME_ACTIONS[GAME_SELECT] = (state, payload) => {
+GAME_ACTIONS[GAME_SELECT] = async (state, payload) => {
 	return payload;
 };
 

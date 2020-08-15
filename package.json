@@ -1,11 +1,27 @@
 {
-  "name": "legion",
-  "version": "0.0.1",
-  "description": "A text message game manager.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Stoo Goff",
-  "license": "ISC"
+	"name": "legion",
+	"license": "ISC",
+	"version": "0.0.1",
+	"author": {
+		"name": "Stoo Goff",
+		"email": "stoo.goff@gmail.com",
+		"url": "http://www.stoogoff.com/"
+	},
+	"description": "A text message game manager.",
+	"main": "index.js",
+	"scripts": {
+		"dev": "parcel src/index.html",
+		"build": "parcel build src/index.html"
+	},
+	"devDependencies": {
+		"babel-core": "^6.26.3",
+		"babel-preset-env": "^1.7.0",
+		"babel-preset-react": "^6.24.1",
+		"parcel-bundler": "^1.12.4",
+		"sass": "^1.26.10"
+	},
+	"dependencies": {
+		"react": "^16.13.1",
+		"react-dom": "^16.13.1"
+	}
 }

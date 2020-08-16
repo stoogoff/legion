@@ -11,6 +11,6 @@ export default (props) => (
 			</figure>
 			<p className="media-right">{ props.object.description }</p>
 		</div>
-		<Button onClick={ props.onSelected.bind(null, props.object) } primary fullwidth label={ `Play ${props.object.name}` } />
+		<Button onClick={ props.onSelect.bind(null, props.object) } fullwidth label="Choose" />
 	</div>
 );

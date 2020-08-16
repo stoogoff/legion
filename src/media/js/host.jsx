@@ -2,17 +2,25 @@
 import 'regenerator-runtime/runtime';
 import React from "react";
 import ReactDOM from "react-dom";
-import GameSelect from "./routes/game-select";
-import CodeGenerated from "./routes/code-generated";
+
+// screens
+import Switch from "./components/switch";
+import GameSelect from "./screens/game-select";
+import CodeGenerated from "./screens/code-generated";
+import CharacterSelect from "./screens/character-select";
+
+// dispatch and data handling code
 import dispatcher from "./lib/dispatcher";
 import gameHandler from "./handlers/game";
+
+// logging
 import getLogger from "./lib/logger";
 
 const logger = getLogger("app", 15);
 
 const tmpData = [
 	{
-		id: "1",
+		internalId: "1",
 		name: "Game Name 1",
 		description: "Lorum ipsum dolor sit amet",
 		image: "https://via.placeholder.com/100x150",
@@ -32,7 +40,7 @@ const tmpData = [
 		}
 	},
 	{
-		id: "2",
+		internalId: "2",
 		name: "Game Name 2",
 		description: "Lorum ipsum dolor sit amet",
 		image: "https://via.placeholder.com/100x150"
@@ -40,12 +48,17 @@ const tmpData = [
 ];
 
 
-class App extends React.Component {
+class Host extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			game: null
+			// data objects from the server
+			game: null,
+			characters: null,
+
+			// current state within the setup process
+			signedIn: false
 		};
 	}
 
@@ -59,15 +72,16 @@ class App extends React.Component {
 		});
 
 		dispatcher.register("game", gameHandler);
+
+		dispatcher.hydrate("game", null);
 	}
 
 	render() {
-		return <div>
-			{ this.state.game
-				? <CodeGenerated game={ this.state.game } />
-				: <GameSelect games={ tmpData } />
-			}
-		</div>;
+		return <Switch>
+			<CharacterSelect characters={ this.state.characters } display={ this.state.characters != null && this.state.signedIn === true }  />
+			<CodeGenerated game={ this.state.game } display={ this.state.game != null } />
+			<GameSelect games={ tmpData } />
+		</Switch>;
 	}
 }
 
@@ -76,7 +90,7 @@ class App extends React.Component {
 
 
 ReactDOM.render(
-	<App />,
+	<Host />,
 	document.getElementById("container")
 );
 

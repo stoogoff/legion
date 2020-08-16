@@ -17,9 +17,9 @@ TODO this screen needs to:
 
 */
 
-const onSelected = (selected) => {
+const onSelect = (selected) => {
 	logger.info(selected);
 	//dispatcher.dispatch(GAME_SELECT, selected);
 }
 
-export default (props) => <div>{ props.characters.map(m => <CharacterContainer key={ m.internalId } object={ m } onSelected={ onSelected } />) }</div>;
+export default (props) => <div>{ props.characters.map(m => <CharacterContainer key={ m.internalId } object={ m } onSelect={ onSelect } />) }</div>;

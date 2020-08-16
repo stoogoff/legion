@@ -9,7 +9,7 @@ import { STORAGE_KEYS } from "../lib/config";
 const GAME_ACTIONS = {};
 
 
-// TODO this will need to send the selection to firebase so other players are aware of the game
+// copy the game data, create a unique code for it and send it to the server
 GAME_ACTIONS[GAME_SELECT] = async (state, payload) => {
 	let upload = { ...payload };
 

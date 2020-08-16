@@ -9,3 +9,9 @@ export const createId = (length = 6) => {
 
 	return output.join("");
 }
+
+export const replaceId = (key, ...props) => {
+	props.forEach(p => key = key.replace("$ID$", p));
+
+	return key;
+}

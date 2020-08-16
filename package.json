@@ -10,8 +10,8 @@
 	"description": "A text message game manager.",
 	"main": "index.js",
 	"scripts": {
-		"start": "parcel build src/index.html",
-		"dev": "parcel src/index.html",
+		"start": "parcel build src/index.html src/host.html",
+		"dev": "parcel src/index.html src/host.html",
 		"clean": "node ./build/clean.js"
 	},
 	"devDependencies": {

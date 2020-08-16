@@ -27,8 +27,15 @@ const tmpData = [
 		// pcs are required for every game so have them at top level
 		pcs: [
 			{
-				name: "name",
-				description: "description",
+				internalId: "1",
+				name: "Liet Kynes",
+				description: "Lorum ipsum dolor sit amet",
+				image: "https://via.placeholder.com/100x150"
+			},
+			{
+				internalId: "2",
+				name: "Duncan Idaho",
+				description: "Lorum ipsum dolor sit amet",
 				image: "https://via.placeholder.com/100x150"
 			}
 		],
@@ -65,6 +72,9 @@ class Host extends React.Component {
 	componentDidMount() {
 		this.ref = dispatcher.subscribe((action, state) => {
 			logger.log(action, state);
+
+			// TODO once the game has been saved to the server, subscribe to updates at /games/ID/players
+			// to get a list of players available
 
 			this.setState({
 				game: state.game

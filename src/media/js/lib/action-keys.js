@@ -7,9 +7,14 @@
 // a game has been chosen
 export const GAME_SELECT = "game-select";
 
-// a player has logged in
+// the player has submitted their details
 export const PLAYER_LOGIN = "player-login";
 
+// a player has logged in and is connected to the host
+export const PLAYER_CONNECTED = "player-connected";
+
+// the state of the game has updated during setup
+export const READY_STATE_CHANGED = "ready-state-changed";
 
 
 // NOT YET IMPLEMENTED

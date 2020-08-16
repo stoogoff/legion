@@ -7,12 +7,12 @@ let ref = 0;
 
 const dispatcher = {
 	// register a handler for a key in the data set
-	register(key, callback) {
+	register(key, ...callbacks) {
 		if(!(key in handlers)) {
 			handlers[key] = {};
 		}
 
-		handlers[key][++ref] = callback;
+		callbacks.forEach(callback => handlers[key][++ref] = callback);
 
 		return ref;
 	},
@@ -43,7 +43,7 @@ const dispatcher = {
 
 			for(let j = 0, jlen = values.length; j < jlen; ++j) {
 				let handler = values[j];
-				
+
 				newState[key] = await handler(newState[key], action, payload);
 			}
 		}

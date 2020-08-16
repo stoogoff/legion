@@ -17,7 +17,7 @@ PLAYER_ACTIONS[PLAYER_LOGIN] = async (state, payload) => {
 
 	logger.log("Got game code: " + gameCode);
 
-	// check for the existance of the game before adding the player
+	// check for the existence of the game before adding the player
 	let game = await database.ref(replaceId(STORAGE_KEYS.GAME_ID, gameCode)).once("value").then(snapshot => snapshot.val());
 
 	if(game) {

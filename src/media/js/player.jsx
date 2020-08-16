@@ -10,12 +10,16 @@ import CharacterSelect from "./screens/character-select";
 // dispatch and data handling code
 import dispatcher from "./lib/dispatcher";
 import playerHandler from "./handlers/player";
+import subscribeHandler from "./handlers/subscribe";
 
 // logging
 import getLogger from "./lib/logger";
 
 const logger = getLogger("player", 15);
 
+
+
+import { PLAYER_LOGIN } from "./lib/action-keys";
 
 
 class Player extends React.Component {
@@ -33,7 +37,7 @@ class Player extends React.Component {
 			logger.log(action, state);
 
 			// action is PLAYER_LOGIN and game == null, display error
-			if(state.game === null) {
+			if(action === PLAYER_LOGIN && state.game === null) {
 				logger.error("Game is null")
 			}
 			else {
@@ -43,7 +47,7 @@ class Player extends React.Component {
 			}
 		});
 
-		dispatcher.register("game", playerHandler);
+		dispatcher.register("game", playerHandler, subscribeHandler);
 
 		dispatcher.hydrate("game", null);
 	}

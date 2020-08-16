@@ -11,7 +11,8 @@ import CharacterSelect from "./screens/character-select";
 
 // dispatch and data handling code
 import dispatcher from "./lib/dispatcher";
-import gameHandler from "./handlers/game";
+import hostHandler from "./handlers/host";
+import subscribeHandler from "./handlers/subscribe";
 
 // logging
 import getLogger from "./lib/logger";
@@ -63,6 +64,7 @@ class Host extends React.Component {
 			// data objects from the server
 			game: null,
 			characters: null,
+			players: [],
 
 			// current state within the setup process
 			signedIn: false
@@ -77,19 +79,28 @@ class Host extends React.Component {
 			// to get a list of players available
 
 			this.setState({
-				game: state.game
+				game: state.game,
+				players: state.players
 			});
 		});
 
-		dispatcher.register("game", gameHandler);
+		dispatcher.register("game", hostHandler, subscribeHandler);
+		dispatcher.register("players", (state = [], action, payload) => {
+			if(action == "player-connected") {
+				return payload;
+			}
+
+			return state;
+		});
 
 		dispatcher.hydrate("game", null);
+		dispatcher.hydrate("players", []);
 	}
 
 	render() {
 		return <Switch>
 			<CharacterSelect characters={ this.state.characters } display={ this.state.characters != null && this.state.signedIn === true }  />
-			<CodeGenerated game={ this.state.game } display={ this.state.game != null } />
+			<CodeGenerated game={ this.state.game } players={ this.state.players } display={ this.state.game != null } />
 			<GameSelect games={ tmpData } />
 		</Switch>;
 	}

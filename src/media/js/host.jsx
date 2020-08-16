@@ -16,7 +16,7 @@ import gameHandler from "./handlers/game";
 // logging
 import getLogger from "./lib/logger";
 
-const logger = getLogger("app", 15);
+const logger = getLogger("host", 15);
 
 const tmpData = [
 	{

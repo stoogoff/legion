@@ -12,7 +12,10 @@ import CharacterSelect from "./screens/character-select";
 // dispatch and data handling code
 import dispatcher from "./lib/dispatcher";
 import hostHandler from "./handlers/host";
-import subscribeHandler from "./handlers/subscribe";
+import { playersLoggingIn } from "./handlers/subscribe";
+import { GAME_SELECT, PLAYER_CONNECTED } from "./lib/action-keys";
+
+import { SETUP } from "./lib/config";
 
 // logging
 import getLogger from "./lib/logger";
@@ -65,28 +68,36 @@ class Host extends React.Component {
 			game: null,
 			characters: null,
 			players: [],
-
-			// current state within the setup process
-			signedIn: false
 		};
+
+		this.subscriber = null;
+		this.playersLoggingIn = null;
 	}
 
 	componentDidMount() {
-		this.ref = dispatcher.subscribe((action, state) => {
+		this.subscriber = dispatcher.subscribe((action, state) => {
 			logger.log(action, state);
 
-			// TODO once the game has been saved to the server, subscribe to updates at /games/ID/players
-			// to get a list of players available
+			// subscribe to players signing in
+			if(action === GAME_SELECT) {
+				this.playersLoggingIn = playersLoggingIn(state.game);
+			}
+
+			// unsubscribe to player updates once the game state has changed to signed in
+			if(state.game.setup === SETUP.SIGNED_IN) {
+				this.playersLoggingIn();
+			}
 
 			this.setState({
 				game: state.game,
+				characters: state.game ? state.game.pcs : null,
 				players: state.players
 			});
 		});
 
-		dispatcher.register("game", hostHandler, subscribeHandler);
+		dispatcher.register("game", hostHandler);
 		dispatcher.register("players", (state = [], action, payload) => {
-			if(action == "player-connected") {
+			if(action == PLAYER_CONNECTED) {
 				return payload;
 			}
 
@@ -99,15 +110,12 @@ class Host extends React.Component {
 
 	render() {
 		return <Switch>
-			<CharacterSelect characters={ this.state.characters } display={ this.state.characters != null && this.state.signedIn === true }  />
+			<CharacterSelect characters={ this.state.characters } display={ this.state.game && this.state.game.setup === SETUP.SIGNED_IN }  />
 			<CodeGenerated game={ this.state.game } players={ this.state.players } display={ this.state.game != null } />
 			<GameSelect games={ tmpData } />
 		</Switch>;
 	}
 }
-
-
-
 
 
 ReactDOM.render(

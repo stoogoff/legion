@@ -16,7 +16,5 @@ export const PLAYER_CONNECTED = "player-connected";
 // the state of the game has updated during setup
 export const READY_STATE_CHANGED = "ready-state-changed";
 
-
-// NOT YET IMPLEMENTED
-// all players have signed in
+// all players have signed in and the host has pressed the setup button
 export const SIGNED_IN = "signed-in";

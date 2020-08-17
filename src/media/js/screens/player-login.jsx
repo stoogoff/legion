@@ -34,7 +34,7 @@ export default class PlayerLogin extends React.Component {
 		return <div>
 			<TextInput label="Game Code" value={ this.state.gameCode } onChange={ this.setSimpleState.bind(this, "gameCode") } required={ true } />
 			<TextInput label="Player Name" value={ this.state.playerName } onChange={ this.setSimpleState.bind(this, "playerName") } required={ true } />
-			<Button onClick={ this.onClick.bind(this) } primary fullwidth label="Setup the Game" disabled={ this.disableSubmit() } />
+			<Button onClick={ this.onClick.bind(this) } primary fullwidth label="Sign In" disabled={ this.disableSubmit() } />
 		</div>;
 	}
 }

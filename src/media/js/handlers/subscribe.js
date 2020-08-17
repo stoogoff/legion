@@ -1,63 +1,96 @@
 
-import { handlerCreator } from "./base";
 import { database } from "../lib/firebase";
 import dispatcher from "../lib/dispatcher";
-import { PLAYER_LOGIN, GAME_SELECT, READY_STATE_CHANGED, PLAYER_CONNECTED } from "../lib/action-keys";
+import { READY_STATE_CHANGED, PLAYER_CONNECTED } from "../lib/action-keys";
 import { replaceId } from "../lib/utils";
 import { STORAGE_KEYS } from "../lib/config";
 import getLogger from "../lib/logger";
 
 
-const logger = getLogger("subscribeHandler", 15);
-const SUBSCRIBE_ACTIONS = {};
+const logger = getLogger("subscribers", 15);
 
-const subscribers = []; // this may need to be keyed rather than an array so it's easy to unsibscribe
+
+/*
+
+All the functions below are used to subscribe to ongoing events in firebase. They all follow this format:
+
+function() {
+	let ref = // get a reference to some firebase path here
+	let callback = ref.on("value", ...) // the callback subcribing to updates
+
+	// return a funciton which will unsubscribe from the updates
+	return () => {
+		if(ref) {
+			ref.off("value", callback);
+		}
+	}
+}
+
+Calling code wouuld look something like this:
+
+let unsub = null;
+
+dispatcher.subscribe((action, state) => {
+	if(action === PLAYER_LOGIN && state.game) {
+		unsub = readyStateChanged(state.game);
+	}
+
+	if(action === READY_STATE_CHANGED && state.setup === SETUP.STARTED) {
+		unsub(); // unsubscribe from updates
+	}
+})
+
+*/
+
+// unsubscribe handler
+const unsub = (ref, callback) => {
+	return () => {
+		if(ref) {
+			ref.off("value", callback);
+		}
+	}
+};
 
 
 // the player has logged in, so the game state needs to be watched
-SUBSCRIBE_ACTIONS[PLAYER_LOGIN] = async (state, payload) => {
-	if(state) {
-		let ref = database.ref(replaceId(STORAGE_KEYS.GAME_SETUP, state.code));
+export const readyStateChanged = (game) => {
+	let ref = database.ref(replaceId(STORAGE_KEYS.GAME_SETUP, game.code));
+	let callback = ref.on("value", snapshot => {
+		logger.log(READY_STATE_CHANGED, snapshot.val());
 
-		subscribers.push(ref);
+		dispatcher.dispatch(READY_STATE_CHANGED, snapshot.val());
+	});
 
-		ref.on("value", snapshot => {
-			dispatcher.dispatch(READY_STATE_CHANGED, snapshot.val());
-		});
-	}
-
-	return state;
+	return unsub(ref, callback);
 };
 
-SUBSCRIBE_ACTIONS[GAME_SELECT] = async (state, payload) => {
-	logger.log(GAME_SELECT, state, payload)
 
-	if(state) {
-		let ref = database.ref(replaceId(STORAGE_KEYS.GAME_PLAYERS, state.code));
+// the host has selected a game and now wants to know when the other players sign up
+export const playersLoggingIn = (game) => {
+	logger.log("playersLoggingIn", game)
 
-		subscribers.push(ref);
+	let ref = database.ref(replaceId(STORAGE_KEYS.GAME_PLAYERS, game.code));
+	let callback = ref.on("value", snapshot => {
+		logger.log(PLAYER_CONNECTED, snapshot.val());
 
-		ref.on("value", snapshot => {
-			logger.log(GAME_SELECT, snapshot.val())
+		let players = snapshot.val();
 
-			let players = snapshot.val();
+		if(players) {
+			// convert players from:
+			// { "id1": { name: "Player 1" }, "id2": { name: "Player 2"} }
+			// to:
+			// [ { internalId: "id1", name: "Player 1"}, { internalId: "id2", name: "Player 2"} ]
+			players = Object.keys(players).map(key => {
+				let obj = players[key];
 
-			if(players) {
-				players = Object.keys(players).map(key => {
-					let obj = players[key];
+				obj.internalId = key;
 
-					obj.internalId = key;
+				return obj;
+			});
 
-					return obj;
-				});
+			dispatcher.dispatch(PLAYER_CONNECTED, players);
+		}
+	});
 
-				dispatcher.dispatch(PLAYER_CONNECTED, players);
-			}
-		});
-	}
-
-	return state;
-}
-
-
-export default handlerCreator(SUBSCRIBE_ACTIONS);
+	return unsub(ref, callback);
+};

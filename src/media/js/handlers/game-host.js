@@ -1,7 +1,7 @@
 
 // actions in this file relate to the host setting up the game
 
-import { createPlayer } from "./crud";
+import { createPlayer, updateGameState } from "./crud";
 import { database } from "../lib/firebase";
 import { handlerCreator, createId, replaceId } from "../lib/utils";
 import { STORAGE_KEYS, SETUP, DEFAULT_HOST_NAME } from "../lib/config";
@@ -11,7 +11,8 @@ import getLogger from "../lib/logger";
 import {
 	GAME_SELECT,
 	SIGNED_IN,
-	CHARACTER_STATE_CHANGED
+	CHARACTER_STATE_CHANGED,
+	CHARACTER_SELECTION_COMPLETE
 } from "../lib/action-keys";
 
 
@@ -36,9 +37,19 @@ ACTIONS[GAME_SELECT] = async (state, payload) => {
 ACTIONS[SIGNED_IN] = async (state, payload) => {
 	logger.log(SIGNED_IN, state, payload)
 
-	database.ref(replaceId(STORAGE_KEYS.GAME_SETUP, state.code)).set(SETUP.SIGNED_IN);
+	updateGameState(state.code, SETUP.SIGNED_IN);
 
 	return { ...state, setup: SETUP.SIGNED_IN };
+};
+
+// all of the players have selected characters and the host has pressed the next button
+// update the game state on the server
+ACTIONS[CHARACTER_SELECTION_COMPLETE] = async(state, payload) => {
+	logger.log(CHARACTER_SELECTION_COMPLETE, state, payload);
+
+	updateGameState(state.code, SETUP.CHARACTERS_SELECTED);
+
+	return { ...state, setup: SETUP.CHARACTERS_SELECTED };
 };
 
 // the state of the characters has changed, meaning someone has chosen one
@@ -48,5 +59,6 @@ ACTIONS[CHARACTER_STATE_CHANGED] = async (state, payload) => {
 
 	return { ...state, pcs: payload };
 };
+
 
 export default handlerCreator(ACTIONS);

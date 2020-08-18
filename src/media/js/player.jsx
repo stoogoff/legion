@@ -50,7 +50,7 @@ class Player extends React.Component {
 
 	componentDidMount() {
 		this.subscriber = dispatcher.subscribe((action, state) => {
-			logger.log(action, state);
+			logger.log("Received data", action, state);
 
 			// the current player's info has been created
 			// store the name in local storage for reuse

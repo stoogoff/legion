@@ -9,4 +9,6 @@ const onSelect = (selected) => {
 	dispatcher.dispatch(GAME_SELECT, selected);
 }
 
+// expected props:
+// - games: an array of games to choose
 export default (props) => <div>{ props.games.map(m => <GameContainer key={ m.id } object={ m } onSelect={ onSelect } />) }</div>;

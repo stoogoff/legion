@@ -6,6 +6,8 @@ import dispatcher from "../lib/dispatcher";
 import { PLAYER_LOGIN } from "../lib/action-keys";
 
 
+// expected props:
+// - defaultName (optional): default name for the name input field
 export default class PlayerLogin extends React.Component {
 	constructor(props) {
 		super(props);

@@ -2,6 +2,8 @@
 import React from "react";
 import Button from "./common/button";
 
+// expected props:
+// - object: the object to display (in this case, a game)
 export default (props) => (
 	<div className="box">
 		<h1 className="title">{ props.object.name }</h1>

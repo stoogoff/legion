@@ -22,6 +22,9 @@ export const GAME_STATE_CHANGED = "game-state-changed";
 // all players have signed in and the host has pressed the setup button
 export const SIGNED_IN = "signed-in";
 
+// all of the players have selected characters and the host is moving to the next stage
+export const CHARACTER_SELECTION_COMPLETE = "character-selection-complete";
+
 // a character has been chosen by the current player
 export const CHARACTER_SELECT = "character-select";
 

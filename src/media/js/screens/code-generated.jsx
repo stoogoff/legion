@@ -9,6 +9,9 @@ const onClick = () => {
 	dispatcher.dispatch(SIGNED_IN, true);
 }
 
+// expected props:
+// - game: the currently selected game
+// - players: an array of all logged in players
 export default (props) => (
 	<div>
 		<p>You are about to play <strong>{ props.game.name }</strong>.</p>

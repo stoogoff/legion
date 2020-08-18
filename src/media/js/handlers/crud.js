@@ -11,7 +11,7 @@ import {
 } from "../lib/action-keys";
 
 
-const logger = getLogger("create", 15);
+const logger = getLogger("crud", 15);
 
 
 // create a new player and return a promise
@@ -31,7 +31,6 @@ export const createPlayer = (gameCode, name) => {
 	});
 };
 
-
 // set a character's selected state to true and add the player id
 export const chooseCharacter = (gameCode, characterId, playerId) => {
 	logger.log("Assigning character to player");
@@ -40,4 +39,9 @@ export const chooseCharacter = (gameCode, characterId, playerId) => {
 		selected: true,
 		playerId: playerId
 	});
+};
+
+// update the game's state
+export const updateGameState = (gameCode, nextState) => {
+	return database.ref(replaceId(STORAGE_KEYS.GAME_SETUP, gameCode)).set(nextState);
 };

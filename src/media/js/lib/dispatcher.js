@@ -4,6 +4,8 @@ let state = {};
 let handlers = {};
 let subscribers = {};
 let ref = 0;
+let running = false;
+let deferred = [];
 
 const dispatcher = {
 	// register a handler for a key in the data set
@@ -34,6 +36,14 @@ const dispatcher = {
 
 	// dispatch an action and payload to the relevent handlers
 	async dispatch(action, payload) {
+		if(running) {
+			deferred.push({ action, payload });
+
+			return;
+		}
+
+		running = true;
+
 		let newState = { ...state };
 		let keys = Object.keys(handlers);
 
@@ -51,6 +61,14 @@ const dispatcher = {
 		state = newState;
 
 		Object.values(subscribers).forEach(callback => callback(action, state));
+
+		running = false;
+
+		while(deferred.length) {
+			let next = deferred.shift();
+
+			dispatcher.dispatch(next.action, next.payload);
+		}
 	},
 
 	// subscribe to all updates

@@ -7,7 +7,7 @@ import ReactDOM from "react-dom";
 import Switch from "./components/switch";
 import GameSelect from "./screens/game-select";
 import CodeGenerated from "./screens/code-generated";
-import CharacterSelect from "./screens/character-select";
+import CharacterControl from "./screens/character-control";
 
 // dispatch and data handling code
 import dispatcher from "./lib/dispatcher";
@@ -126,7 +126,7 @@ class Host extends React.Component {
 
 	render() {
 		return <Switch>
-			<CharacterSelect characters={ this.state.characters } player={ this.state.player } display={ this.state.game && this.state.game.setup === SETUP.SIGNED_IN }  />
+			<CharacterControl characters={ this.state.characters } player={ this.state.player } players={ this.state.players } display={ this.state.game && this.state.game.setup === SETUP.SIGNED_IN }  />
 			<CodeGenerated game={ this.state.game } players={ this.state.players } display={ this.state.game != null } />
 			<GameSelect games={ tmpData } />
 		</Switch>;

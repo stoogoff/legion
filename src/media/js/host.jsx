@@ -11,7 +11,7 @@ import CharacterSelect from "./screens/character-select";
 
 // dispatch and data handling code
 import dispatcher from "./lib/dispatcher";
-import hostHandler from "./handlers/host";
+import hostHandler from "./handlers/game-host";
 import { playersLoggingIn } from "./handlers/subscribe";
 import { GAME_SELECT, PLAYER_CONNECTED } from "./lib/action-keys";
 

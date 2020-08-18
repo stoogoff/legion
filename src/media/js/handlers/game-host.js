@@ -18,10 +18,7 @@ const HOST_ACTIONS = {};
 
 // copy the game data, create a unique code for it and send it to the server
 HOST_ACTIONS[GAME_SELECT] = async (state, payload) => {
-	let upload = { ...payload };
-
-	upload.code = createId();
-	upload.setup = SETUP.CREATED;
+	let upload = { code: createId(), setup: SETUP.CREATED, ...payload };
 
 	// create the game, and once its done create the host player
 	database.ref(STORAGE_KEYS.GAME_ROOT).child(upload.code).set(upload).then(() => {
@@ -38,11 +35,8 @@ HOST_ACTIONS[SIGNED_IN] = async (state, payload) => {
 
 	database.ref(replaceId(STORAGE_KEYS.GAME_SETUP, state.code)).set(SETUP.SIGNED_IN);
 
-	let updated = { ...state };
-
-	updated.setup = SETUP.SIGNED_IN;
-
-	return updated;
+	return { setup: SETUP.SIGNED_IN, ...state };
 };
+
 
 export default handlerCreator(HOST_ACTIONS);

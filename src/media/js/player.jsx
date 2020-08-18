@@ -10,7 +10,7 @@ import Loading from "./screens/loading";
 
 // dispatch and data handling code
 import dispatcher from "./lib/dispatcher";
-import playerHandler from "./handlers/player";
+import playerHandler from "./handlers/game-player";
 import { readyStateChanged } from "./handlers/subscribe";
 
 import { SETUP } from "./lib/config";

@@ -8,7 +8,8 @@ import getLogger from "../lib/logger";
 // this file handles the following actions
 import {
 	PLAYER_LOGIN,
-	READY_STATE_CHANGED
+	READY_STATE_CHANGED,
+	CHARACTER_SELECT
 } from "../lib/action-keys";
 
 
@@ -36,11 +37,18 @@ PLAYER_ACTIONS[PLAYER_LOGIN] = async (state, payload) => {
 PLAYER_ACTIONS[READY_STATE_CHANGED] = async (state, payload) => {
 	logger.log(state, payload)
 
-	let updated = { ...state };
+	return { setup: payload, ...state };
+};
 
-	updated.setup = payload;
+// the player has chosen a character
+// TODO this exact functionality will need to be included for both the player and host
+PLAYER_ACTIONS[CHARACTER_SELECT] = async (state, payload) => {
+	logger.log(state, payload);
 
-	return updated;
+	// TODO add the selected character to the current player's profile
+	// TODO change the state of the character to selected so no-one else can take it
+
+	return state;
 };
 
 

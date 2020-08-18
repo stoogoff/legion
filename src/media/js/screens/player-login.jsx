@@ -12,7 +12,7 @@ export default class PlayerLogin extends React.Component {
 
 		this.state = {
 			gameCode: "",
-			playerName: ""
+			playerName: props.defaultName || ""
 		};
 	}
 

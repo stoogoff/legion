@@ -13,11 +13,17 @@ export const PLAYER_LOGIN = "player-login";
 // a player has logged in and is connected to the host
 export const PLAYER_CONNECTED = "player-connected";
 
+// the current player data has successfully saved to the server
+export const PLAYER_CREATED = "player-created";
+
 // the state of the game has updated during setup
-export const READY_STATE_CHANGED = "ready-state-changed";
+export const GAME_STATE_CHANGED = "game-state-changed";
 
 // all players have signed in and the host has pressed the setup button
 export const SIGNED_IN = "signed-in";
 
-// a character has been chosen
+// a character has been chosen by the current player
 export const CHARACTER_SELECT = "character-select";
+
+// a character has been selected by someone else
+export const CHARACTER_STATE_CHANGED = "character-state-changed";

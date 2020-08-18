@@ -1,10 +1,16 @@
 
 // storage keys for remote paths
 export const STORAGE_KEYS = {
+	// firebase paths
 	GAME_ROOT: "/games",
 	GAME_ID: "/games/$ID$",
 	GAME_SETUP: "/games/$ID$/setup",
-	GAME_PLAYERS: "/games/$ID$/players"
+	GAME_PLAYERS: "/games/$ID$/players",
+	GAME_PCS: "/games/$ID$/pcs",
+	PC_ID: "/games/$ID$/pcs/$ID$",
+
+	// local storage keys
+	PLAYER_LOCAL: "legion-player"
 };
 
 // the state of the game during the setup process 

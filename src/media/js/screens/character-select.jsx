@@ -11,9 +11,16 @@ const logger = getLogger("character-select", LOG | INFO);
 
 TODO this screen needs to:
 
-- display a list of characters
-- select a character when the player presses the choose button
-- disable a character if another player chooses that character
+- DONE display a list of characters
+- DONE select a character when the player presses the choose button
+- DONE disable a character if another player chooses that character
+- DONE disable buttons once a player has chosen their character
+- indicate which character the current player has chosen
+
+FOR THE HOST ONLY
+
+once all players have chosen a character (including themselves) they should be able to press a button to
+progress to the next stage
 
 */
 
@@ -22,4 +29,4 @@ const onSelect = (selected) => {
 	dispatcher.dispatch(CHARACTER_SELECT, selected);
 }
 
-export default (props) => <div>{ props.characters.map(m => <CharacterContainer key={ m.internalId } object={ m } onSelect={ onSelect } />) }</div>;
+export default (props) => <div>{ Object.values(props.characters).map(m => <CharacterContainer key={ m.id } player={ props.player } object={ m } onSelect={ onSelect } />) }</div>;

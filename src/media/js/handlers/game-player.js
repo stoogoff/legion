@@ -1,5 +1,7 @@
 
-import { createPlayer } from "./create";
+// actions in this file relate to players signing up to the game
+
+import { createPlayer } from "./crud";
 import { database } from "../lib/firebase";
 import { handlerCreator, replaceId } from "../lib/utils";
 import { STORAGE_KEYS } from "../lib/config";
@@ -8,17 +10,17 @@ import getLogger from "../lib/logger";
 // this file handles the following actions
 import {
 	PLAYER_LOGIN,
-	READY_STATE_CHANGED,
-	CHARACTER_SELECT
+	GAME_STATE_CHANGED,
+	CHARACTER_STATE_CHANGED
 } from "../lib/action-keys";
 
 
-const logger = getLogger("playerHandler", 15);
-const PLAYER_ACTIONS = {};
+const logger = getLogger("game-player", 15);
+const ACTIONS = {};
 
 
 // validate the game code and log the player into the game
-PLAYER_ACTIONS[PLAYER_LOGIN] = async (state, payload) => {
+ACTIONS[PLAYER_LOGIN] = async (state, payload) => {
 	let gameCode = payload.gameCode.toUpperCase();
 
 	logger.log("Got game code: " + gameCode);
@@ -27,6 +29,8 @@ PLAYER_ACTIONS[PLAYER_LOGIN] = async (state, payload) => {
 	let game = await database.ref(replaceId(STORAGE_KEYS.GAME_ID, gameCode)).once("value").then(snapshot => snapshot.val());
 
 	if(game) {
+		logger.log("Creating player", payload.playerName)
+
 		createPlayer(gameCode, payload.playerName);
 	}
 
@@ -34,22 +38,18 @@ PLAYER_ACTIONS[PLAYER_LOGIN] = async (state, payload) => {
 };
 
 // the game state has been changed by the host
-PLAYER_ACTIONS[READY_STATE_CHANGED] = async (state, payload) => {
-	logger.log(state, payload)
+ACTIONS[GAME_STATE_CHANGED] = async (state, payload) => {
+	logger.log(GAME_STATE_CHANGED, state, payload)
 
-	return { setup: payload, ...state };
+	return { ...state, setup: payload };
 };
 
-// the player has chosen a character
-// TODO this exact functionality will need to be included for both the player and host
-PLAYER_ACTIONS[CHARACTER_SELECT] = async (state, payload) => {
-	logger.log(state, payload);
+// the state of the characters has changed, meaning someone has chosen one
+ACTIONS[CHARACTER_STATE_CHANGED] = async (state, payload) => {
+	logger.log(CHARACTER_STATE_CHANGED, state, payload)
 
-	// TODO add the selected character to the current player's profile
-	// TODO change the state of the character to selected so no-one else can take it
-
-	return state;
+	return { ...state, pcs: payload };
 };
 
 
-export default handlerCreator(PLAYER_ACTIONS);
+export default handlerCreator(ACTIONS);

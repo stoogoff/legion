@@ -16,7 +16,7 @@ export default (props) => (
 		{ props.players.length
 			? <div className="content">
 				<p>The following players have signed in:</p>
-				<ul> { props.players.map(p => <li key={ p.internalId }>{ p.name }</li>) }</ul>
+				<ul> { props.players.map(p => <li key={ p.id }>{ p.name }</li>) }</ul>
 			</div>
 			: null
 		}

@@ -9,4 +9,4 @@ const onSelect = (selected) => {
 	dispatcher.dispatch(GAME_SELECT, selected);
 }
 
-export default (props) => <div>{ props.games.map(m => <GameContainer key={ m.internalId } object={ m } onSelect={ onSelect } />) }</div>;
+export default (props) => <div>{ props.games.map(m => <GameContainer key={ m.id } object={ m } onSelect={ onSelect } />) }</div>;

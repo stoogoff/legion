@@ -1,10 +1,15 @@
 
 import { database } from "../lib/firebase";
 import dispatcher from "../lib/dispatcher";
-import { READY_STATE_CHANGED, PLAYER_CONNECTED } from "../lib/action-keys";
 import { replaceId } from "../lib/utils";
 import { STORAGE_KEYS } from "../lib/config";
 import getLogger from "../lib/logger";
+
+// this file handles the following actions
+import {
+	READY_STATE_CHANGED,
+	PLAYER_CONNECTED
+} from "../lib/action-keys";
 
 
 const logger = getLogger("subscribers", 15);
@@ -81,11 +86,7 @@ export const playersLoggingIn = (game) => {
 			// to:
 			// [ { internalId: "id1", name: "Player 1"}, { internalId: "id2", name: "Player 2"} ]
 			players = Object.keys(players).map(key => {
-				let obj = players[key];
-
-				obj.internalId = key;
-
-				return obj;
+				return { internalId: key, ...players[key] };
 			});
 
 			dispatcher.dispatch(PLAYER_CONNECTED, players);

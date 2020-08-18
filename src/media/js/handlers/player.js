@@ -1,10 +1,11 @@
 
-import { handlerCreator } from "./base";
 import { createPlayer } from "./create";
 import { database } from "../lib/firebase";
-import { replaceId } from "../lib/utils";
+import { handlerCreator, replaceId } from "../lib/utils";
 import { STORAGE_KEYS } from "../lib/config";
 import getLogger from "../lib/logger";
+
+// this file handles the following actions
 import {
 	PLAYER_LOGIN,
 	READY_STATE_CHANGED

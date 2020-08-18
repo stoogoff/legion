@@ -1,10 +1,11 @@
 
-import { handlerCreator } from "./base";
 import { createPlayer } from "./create";
 import { database } from "../lib/firebase";
-import { createId, replaceId } from "../lib/utils";
+import { handlerCreator, createId, replaceId } from "../lib/utils";
 import { STORAGE_KEYS, SETUP, DEFAULT_HOST_NAME } from "../lib/config";
 import getLogger from "../lib/logger";
+
+// this file handles the following actions
 import {
 	GAME_SELECT,
 	SIGNED_IN
@@ -26,7 +27,6 @@ HOST_ACTIONS[GAME_SELECT] = async (state, payload) => {
 	database.ref(STORAGE_KEYS.GAME_ROOT).child(upload.code).set(upload).then(() => {
 		createPlayer(upload.code, DEFAULT_HOST_NAME);
 	});
-
 
 	return upload;
 };

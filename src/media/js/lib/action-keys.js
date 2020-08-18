@@ -18,3 +18,6 @@ export const READY_STATE_CHANGED = "ready-state-changed";
 
 // all players have signed in and the host has pressed the setup button
 export const SIGNED_IN = "signed-in";
+
+// a character has been chosen
+export const CHARACTER_SELECT = "character-select";

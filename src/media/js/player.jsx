@@ -71,7 +71,7 @@ class Player extends React.Component {
 
 	render() {
 		return <Switch>
-			<CharacterSelect characters={ this.state.characters } display={ this.state.game && this.state.game.setup === SETUP.SIGNED_IN } />
+			<CharacterSelect characters={ this.state.characters } enabled={ false } display={ this.state.game && this.state.game.setup === SETUP.SIGNED_IN } />
 			<Loading display={ this.state.game && this.state.game.setup === SETUP.CREATED && this.state.characters != null } />
 			<PlayerLogin />
 		</Switch>;

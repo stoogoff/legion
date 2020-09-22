@@ -12,10 +12,16 @@
 	"scripts": {
 		"start": "parcel build src/index.html src/host.html",
 		"dev": "parcel src/index.html src/host.html",
-		"clean": "node ./build/clean.js"
+		"clean": "node ./build/clean.js",
+		"test": "jest"
 	},
 	"devDependencies": {
+		"@babel/preset-env": "^7.11.5",
+		"@babel/preset-react": "^7.10.4",
+		"babel-jest": "^26.3.0",
+		"jest": "^26.4.2",
 		"parcel-bundler": "^1.12.4",
+		"react-test-renderer": "^16.13.1",
 		"rimraf": "^3.0.2",
 		"sass": "^1.26.10"
 	},

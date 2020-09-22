@@ -9,12 +9,12 @@ let deferred = [];
 
 const dispatcher = {
 	// register a handler for a key in the data set
-	register(key, ...callbacks) {
+	register(key, callback) {
 		if(!(key in handlers)) {
 			handlers[key] = {};
 		}
 
-		callbacks.forEach(callback => handlers[key][++ref] = callback);
+		handlers[key][++ref] = callback;
 
 		return ref;
 	},

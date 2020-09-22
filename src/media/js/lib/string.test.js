@@ -1,5 +1,5 @@
 
-import * as str from "../../../src/media/js/lib/string";
+import * as str from "./string";
 
 
 // id tests
@@ -62,13 +62,3 @@ test("escapeHTML: greater and less than to be converted to HTML entities", () =>
 test("unescapeHTML: &gt; and &lt; to be converted to correct characters", () => {
 	expect(str.unescapeHTML("&lt;span&gt;")).toBe("<span>");
 });
-
-
-
-/*
-
-
-
-export const toDate = (str) => {
-	return new Date(Date.parse(str));
-}*/

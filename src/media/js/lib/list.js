@@ -4,7 +4,7 @@ export const sortByProperty = (prop) => {
 		a = a[prop];
 		b = b[prop];
 
-		return a == b ? 0 : (a < b ? -1: 1);
+		return a == b ? 0 : (a < b ? -1 : 1);
 	};
 };
 
@@ -20,10 +20,10 @@ export const findByProperty = (property, value) => {
 }
 
 export const indexOfByProperty = (list, property, value) => {
-	for(let i = 0; i < list.length; ++i) {
-		let item = list[i];
+	const finder = findByProperty(property, value);
 
-		if(property in item && item[property] == value) {
+	for(let i = 0; i < list.length; ++i) {
+		if(finder(list[i])) {
 			return i;
 		}
 	}

@@ -67,7 +67,7 @@ const dispatcher = {
 		while(deferred.length) {
 			let next = deferred.shift();
 
-			dispatcher.dispatch(next.action, next.payload);
+			await dispatcher.dispatch(next.action, next.payload);
 		}
 	},
 
